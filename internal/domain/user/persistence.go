@@ -33,7 +33,7 @@ func (p *Persistence) Create(ctx context.Context, user *User) error {
 }
 
 func (p *Persistence) Update(ctx context.Context, user *User) error {
-	query := `UPDATE users SET username = $1, password = $2, email = $3, role = $4, updated_at = $5 WHERE id = $5`
+	query := `UPDATE users SET username = $1, password = $2, email = $3, role = $4, updated_at = $5 WHERE id = $6`
 	_, err := p.db.ExecContext(ctx, query,
 		user.Username,
 		user.Password,
@@ -97,4 +97,30 @@ func (p *Persistence) FindByEmail(ctx context.Context, email string) (*User, err
 	}
 
 	return &user, nil
+}
+
+func (p *Persistence) GetAll(ctx context.Context) ([]*User, error) {
+	query := `SELECT username, email, role FROM users`
+
+	rows, err := p.db.QueryContext(ctx, query)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var users []*User
+
+	for rows.Next() {
+		var user User
+
+		err := rows.Scan(&user.Username, &user.Email, &user.Role)
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, &user)
+	}
+
+	return users, nil
 }

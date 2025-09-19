@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -23,28 +24,6 @@ const (
 	RoleEditor Role = "editor"
 	RoleViewer Role = "viewer"
 )
-
-func (u *User) canEdit() bool {
-	return u.Role == string(RoleAdmin) || u.Role == string(RoleEditor)
-}
-
-func (u *User) canDelete() bool {
-	return u.Role == string(RoleAdmin) || u.Role == string(RoleEditor)
-}
-
-func (u *User) HashPassword() error {
-	if u.Password == "" {
-		return errors.New("password cannot be empty")
-	}
-
-	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
-
-	u.Password = string(hashedBytes)
-	return nil
-}
 
 func NewUser(username string, email string, password string, role Role) (*User, error) {
 	if username == "" {
@@ -75,4 +54,30 @@ func NewUser(username string, email string, password string, role Role) (*User, 
 	}
 
 	return user, nil
+}
+
+func (u *User) isAdmin() bool {
+	return u.Role == string(RoleAdmin)
+}
+
+func (u *User) isEditor() bool {
+	return u.Role == string(RoleEditor)
+}
+
+func (u *User) isViewer() bool {
+	return u.Role == string(RoleViewer)
+}
+
+func (u *User) HashPassword() error {
+	if u.Password == "" {
+		return errors.New("password cannot be empty")
+	}
+
+	hashedBytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	u.Password = string(hashedBytes)
+	return nil
 }

@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/Stettzy/GoPress/internal/domain/article"
 	"net/http"
+
+	"github.com/Stettzy/GoPress/internal/domain/article"
 )
 
 type ArticleHandler struct {
@@ -26,7 +27,12 @@ func (h *ArticleHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = h.articleService.CreateArticle(r.Context(), req.Title, req.Body)
+	err = h.articleService.CreateArticle(r.Context(), req.Title, req.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-	return
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte("Article created successfully"))
 }

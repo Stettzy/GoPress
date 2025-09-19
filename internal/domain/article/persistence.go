@@ -27,7 +27,7 @@ func (p *Persistence) Create(ctx context.Context, article *Article) error {
 	return err
 }
 
-func (p *Persistence) Update(ctx context.Context, article *Article, categoryIDs []int, tagIDs []int) error {
+func (p *Persistence) Update(ctx context.Context, article *Article, categoryIds []int, tagIds []int) error {
 	tx, err := p.db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
@@ -41,24 +41,28 @@ func (p *Persistence) Update(ctx context.Context, article *Article, categoryIDs 
 		return err
 	}
 
+	// Remove existing categories for the article
 	_, err = tx.ExecContext(ctx, `DELETE FROM article_categories WHERE article_id = $1`, article.ID)
 	if err != nil {
 		return err
 	}
 
+	// Remove existing tags for the article
 	_, err = tx.ExecContext(ctx, `DELETE FROM article_tags WHERE article_id = $1`, article.ID)
 	if err != nil {
 		return err
 	}
 
-	for _, categoryID := range categoryIDs {
-		err = p.addCategoryToArticle(ctx, tx, article.ID, categoryID)
+	// Add new categories for the article
+	for _, categoryId := range categoryIds {
+		err = p.AddArticleToCategory(ctx, article.ID, categoryId)
 		if err != nil {
 			return err
 		}
 	}
 
-	for _, tagID := range tagIDs {
+	// Add new tags for the article
+	for _, tagID := range tagIds {
 		err = p.addTagToArticle(ctx, tx, article.ID, tagID)
 		if err != nil {
 			return err
@@ -68,9 +72,9 @@ func (p *Persistence) Update(ctx context.Context, article *Article, categoryIDs 
 	return tx.Commit()
 }
 
-func (p *Persistence) Delete(ctx context.Context, article *Article) error {
+func (p *Persistence) Delete(ctx context.Context, articleId int) error {
 	query := `DELETE FROM articles WHERE id = $1`
-	_, err := p.db.ExecContext(ctx, query, article.ID)
+	_, err := p.db.ExecContext(ctx, query, articleId)
 	return err
 }
 
@@ -101,7 +105,7 @@ func (p *Persistence) GetAll(ctx context.Context) ([]*Article, error) {
 		return nil, err
 	}
 
-	_ = rows.Close()
+	defer rows.Close()
 
 	var articles []*Article
 
@@ -119,23 +123,11 @@ func (p *Persistence) GetAll(ctx context.Context) ([]*Article, error) {
 	return articles, nil
 }
 
-func (p *Persistence) addCategoryToArticle(ctx context.Context, exec Executor, articleID, categoryID int) error {
-	query := `INSERT INTO article_categories (article_id, category_id) VALUES ($1, $2)`
-	_, err := exec.ExecContext(ctx, query, articleID, categoryID)
-	return err
-}
-
-func (p *Persistence) addTagToArticle(ctx context.Context, exec Executor, articleID, tagID int) error {
+func (p *Persistence) addTagToArticle(ctx context.Context, exec Executor, articleID, tagId int) error {
 	query := `INSERT INTO article_tags (article_id, tag_id) VALUES ($1, $2)`
-	_, err := exec.ExecContext(ctx, query, articleID, tagID)
+	_, err := exec.ExecContext(ctx, query, articleID, tagId)
 	return err
 }
-
-//func (p *Persistence) AddTagToArticle(ctx context.Context, articleId int, tagId int) error {
-//	query := `INSERT INTO article_tags (tag_id, article_id) VALUES ($1, $2)`
-//	_, err := p.db.ExecContext(ctx, query, tagId, articleId)
-//	return err
-//}
 
 func (p *Persistence) RemoveTagFromArticle(ctx context.Context, articleId int, tagId int) error {
 	query := `DELETE FROM article_tags WHERE tag_id = $1 AND article_id = $2`
@@ -143,15 +135,15 @@ func (p *Persistence) RemoveTagFromArticle(ctx context.Context, articleId int, t
 	return err
 }
 
-//func (p *Persistence) AddArticleToCategory(ctx context.Context, id int, categoryId int) error {
-//	query := `INSERT INTO article_categories (article_id, category_id) VALUES ($1, $2)`
-//	_, err := p.db.ExecContext(ctx, query, id, categoryId)
-//	return err
-//}
+func (p *Persistence) AddArticleToCategory(ctx context.Context, articleId int, categoryId int) error {
+	query := `INSERT INTO article_categories (article_id, category_id) VALUES ($1, $2)`
+	_, err := p.db.ExecContext(ctx, query, articleId, categoryId)
+	return err
+}
 
-func (p *Persistence) RemoveCategoryFromArticle(ctx context.Context, id int, categoryId int) error {
+func (p *Persistence) RemoveCategoryFromArticle(ctx context.Context, articleId int, categoryId int) error {
 	query := `DELETE FROM article_categories WHERE category_id = $1 AND article_id = $2`
-	_, err := p.db.ExecContext(ctx, query, categoryId, id)
+	_, err := p.db.ExecContext(ctx, query, categoryId, articleId)
 	return err
 }
 
@@ -169,9 +161,9 @@ func (p *Persistence) UpdateTag(ctx context.Context, tag *Tag) error {
 	return err
 }
 
-func (p *Persistence) DeleteTag(ctx context.Context, tag *Tag) error {
+func (p *Persistence) DeleteTag(ctx context.Context, id int) error {
 	query := `DELETE FROM tags WHERE id = $1`
-	_, err := p.db.ExecContext(ctx, query, tag.Name)
+	_, err := p.db.ExecContext(ctx, query, id)
 	return err
 }
 

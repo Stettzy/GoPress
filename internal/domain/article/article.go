@@ -2,8 +2,9 @@ package article
 
 import (
 	"errors"
-	"github.com/Stettzy/GoPress/internal/domain/user"
 	"time"
+
+	"github.com/Stettzy/GoPress/internal/domain/user"
 )
 
 type Article struct {
