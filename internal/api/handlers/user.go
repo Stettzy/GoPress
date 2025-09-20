@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/Stettzy/GoPress/internal/domain/user"
 )
@@ -40,60 +41,83 @@ func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if id == "" {
+		http.Error(w, "ID is required", http.StatusBadRequest)
+		return
+	}
+
+	parsedId, err := strconv.Atoi(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	var req struct {
-		ID       int    `json:"id"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
 		Role     string `json:"role"`
 	}
 
-	err := json.NewDecoder(r.Body).Decode(&req)
+	err = json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	err = h.userService.UpdateUser(r.Context(), req.ID, req.Username, req.Email, req.Password, req.Role)
+	err = h.userService.Update(r.Context(), parsedId, req.Username, req.Email, req.Password, req.Role)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("User updated successfully"))
 }
 
 func (h *UserHandler) Delete(w http.ResponseWriter, r *http.Request) {
-	var req struct {
-		ID int `json:"id"`
+	id := r.PathValue("id")
+	if id == "" {
+		http.Error(w, "ID is required", http.StatusBadRequest)
+		return
 	}
 
-	err := json.NewDecoder(r.Body).Decode(&req)
+	parsedId, err := strconv.Atoi(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	user, err := h.userService.FindById(r.Context(), req.ID)
+	user, err := h.userService.FindById(r.Context(), parsedId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	err = h.userService.Delete(r.Context(), user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("User deleted successfully"))
 }
 
 func (h *UserHandler) FindById(w http.ResponseWriter, r *http.Request) {
-	var req struct {
-		ID int `json:"id"`
+	id := r.PathValue("id")
+	if id == "" {
+		http.Error(w, "ID is required", http.StatusBadRequest)
+		return
 	}
-
-	err := json.NewDecoder(r.Body).Decode(&req)
+	parsedId, err := strconv.Atoi(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	user, err := h.userService.FindById(r.Context(), req.ID)
+	user, err := h.userService.FindById(r.Context(), parsedId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

@@ -5,12 +5,6 @@ import (
 	"database/sql"
 )
 
-type Executor interface {
-	ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error)
-	QueryContext(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error)
-	QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row
-}
-
 type Persistence struct {
 	db *sql.DB
 }
@@ -62,8 +56,8 @@ func (p *Persistence) Update(ctx context.Context, article *Article, categoryIds 
 	}
 
 	// Add new tags for the article
-	for _, tagID := range tagIds {
-		err = p.addTagToArticle(ctx, tx, article.ID, tagID)
+	for _, tagId := range tagIds {
+		err = p.AddTagToArticle(ctx, article.ID, tagId)
 		if err != nil {
 			return err
 		}
@@ -123,9 +117,9 @@ func (p *Persistence) GetAll(ctx context.Context) ([]*Article, error) {
 	return articles, nil
 }
 
-func (p *Persistence) addTagToArticle(ctx context.Context, exec Executor, articleID, tagId int) error {
+func (p *Persistence) AddTagToArticle(ctx context.Context, articleId, tagId int) error {
 	query := `INSERT INTO article_tags (article_id, tag_id) VALUES ($1, $2)`
-	_, err := exec.ExecContext(ctx, query, articleID, tagId)
+	_, err := p.db.ExecContext(ctx, query, articleId, tagId)
 	return err
 }
 
@@ -181,8 +175,8 @@ func (p *Persistence) UpdateCategory(ctx context.Context, category *Category) er
 	return err
 }
 
-func (p *Persistence) DeleteCategory(ctx context.Context, category *Category) error {
+func (p *Persistence) DeleteCategory(ctx context.Context, categoryId int) error {
 	query := `DELETE FROM categories WHERE id = $1`
-	_, err := p.db.ExecContext(ctx, query, category.ID)
+	_, err := p.db.ExecContext(ctx, query, categoryId)
 	return err
 }

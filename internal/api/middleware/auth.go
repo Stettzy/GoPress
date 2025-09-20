@@ -48,6 +48,23 @@ func (a *AuthMiddleware) Middleware() func(http.Handler) http.Handler {
 	}
 }
 
+func (a *AuthMiddleware) RequirePermission(check func(user *user.User) bool) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			user, err := GetUserFromContext(r.Context())
+			if err != nil {
+				http.Error(w, "Unauthorized", http.StatusUnauthorized)
+				return
+			}
+			if !check(user) {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
 func GetUserFromContext(ctx context.Context) (*user.User, error) {
 	user, ok := ctx.Value(UserContextKey).(*user.User)
 	if !ok || user == nil {

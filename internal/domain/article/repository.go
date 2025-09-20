@@ -20,5 +20,5 @@ type Repository interface {
 	// Categories operations
 	CreateCategory(ctx context.Context, category *Category) error
 	UpdateCategory(ctx context.Context, category *Category) error
-	DeleteCategory(ctx context.Context, id string) error
+	DeleteCategory(ctx context.Context, id int) error
 }

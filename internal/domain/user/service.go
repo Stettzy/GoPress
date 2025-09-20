@@ -23,7 +23,7 @@ func (s *Service) CreateUser(ctx context.Context, username, email, password stri
 	return user, nil
 }
 
-func (s *Service) UpdateUser(ctx context.Context, id int, username, email, password string, role string) error {
+func (s *Service) Update(ctx context.Context, id int, username, email, password string, role string) error {
 	user, err := s.repo.FindById(ctx, id)
 	if err != nil {
 		return err
@@ -31,8 +31,14 @@ func (s *Service) UpdateUser(ctx context.Context, id int, username, email, passw
 
 	user.Username = username
 	user.Email = email
-	user.Password = password
 	user.Role = role
+
+	if password != "" {
+		user.Password = password
+		if err := user.HashPassword(); err != nil {
+			return err
+		}
+	}
 
 	return s.repo.Update(ctx, user)
 }
