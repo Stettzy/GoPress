@@ -102,13 +102,13 @@ func (m *Migrator) MigrateDown() error {
 }
 
 func (m *Migrator) recordMigration(version string) error {
-	_, err := m.db.Exec("INSERT INTO schema_migrations (version) VALUES ($1)", version)
+	_, err := m.db.Exec("INSERT INTO schema_migrations (version) VALUES (?)", version)
 	return err
 }
 
 func (m *Migrator) isApplied(version string) (bool, error) {
 	var count int
-	err := m.db.QueryRow("SELECT COUNT(*) FROM schema_migrations WHERE version = $1", version).Scan(&count)
+	err := m.db.QueryRow("SELECT COUNT(*) FROM schema_migrations WHERE version = ?", version).Scan(&count)
 	return count > 0, err
 }
 

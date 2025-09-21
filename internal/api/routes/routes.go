@@ -10,10 +10,21 @@ import (
 
 func SetupRoutes(handlers *handlers.Handlers, authMiddleware *middleware.AuthMiddleware) *http.ServeMux {
 	r := http.NewServeMux()
+	// Auth
+	r = setupAuthRoutes(r, handlers)
 	// Users
 	r = setupUsersRoutes(r, handlers, authMiddleware)
 	// Articles
 	r = setupArticlesRoutes(r, handlers, authMiddleware)
+	return r
+}
+
+func setupAuthRoutes(r *http.ServeMux, handlers *handlers.Handlers) *http.ServeMux {
+	// Login
+	r.Handle("POST /api/auth/login", http.HandlerFunc(handlers.AuthHandler.Login))
+	// Logout
+	r.Handle("POST /api/auth/logout", http.HandlerFunc(handlers.AuthHandler.Logout))
+
 	return r
 }
 

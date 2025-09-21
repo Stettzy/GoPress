@@ -1,7 +1,10 @@
+"use client"
+import { LoginPage } from "@/modules/auth/pages/LoginPage"
+
 export default function LoginRoute() {
     return (
         <div>
-            <h1>Login</h1>
+            <LoginPage />
         </div>
     )
 }

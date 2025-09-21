@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS articles_categories (
-    id SERIAL PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     article_id INT NOT NULL,
     category_id INT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

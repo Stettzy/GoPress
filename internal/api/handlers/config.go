@@ -17,11 +17,11 @@ func NewConfigHandler(cs *config.Service) *ConfigHandler {
 
 func (h *ConfigHandler) SetupDatabaseConnection(w http.ResponseWriter, r *http.Request) {
 	var req struct {
-		DB_HOST     string `json:"db_host"`
-		DB_PORT     string `json:"db_port"`
-		DB_USER     string `json:"db_user"`
-		DB_PASSWORD string `json:"db_password"`
-		DB_NAME     string `json:"db_name"`
+		DB_HOST     string `json:"dbHost"`
+		DB_PORT     string `json:"dbPort"`
+		DB_USER     string `json:"dbUser"`
+		DB_PASSWORD string `json:"dbPassword"`
+		DB_NAME     string `json:"dbName"`
 	}
 
 	err := json.NewDecoder(r.Body).Decode(&req)
@@ -36,6 +36,15 @@ func (h *ConfigHandler) SetupDatabaseConnection(w http.ResponseWriter, r *http.R
 		return
 	}
 
+	http.SetCookie(w, &http.Cookie{
+		Name:     "db_setup_complete",
+		Value:    "true",
+		Path:     "/",
+		HttpOnly: true,
+	})
+
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Database connection setup successfully"))
+
+	json.NewEncoder(w).Encode(map[string]string{"message": "Database connection setup successfully"})
 }

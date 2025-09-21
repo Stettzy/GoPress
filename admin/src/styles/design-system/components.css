@@ -1,6 +1,12 @@
 @layer components {
+    /* Labels */
+    .label {
+        @apply block text-sm font-normal text-foreground mb-1;
+    }
+
+    /* Buttons */
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2_5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50;
+        @apply cursor-pointer inline-flex items-center justify-center gap-2 rounded-md px-4 py-2_5 text-sm font-medium transition-all focus-visible:outline focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50;
     }
 
     .btn-sm {
@@ -31,13 +37,27 @@
         @apply bg-transparent text-foreground hover:bg-muted hover:text-muted-foreground;
     }
 
+    /* Links */
+    .link {
+        @apply font-medium text-primary hover:text-primary/80;
+    }
+    .link-muted {
+        @apply font-medium text-muted hover:text-muted/80;
+    }
+    .link-outline {
+        @apply font-medium text-foreground hover:text-foreground/80 border border-input;
+    }
+    .link-ghost {
+        @apply font-medium text-foreground hover:text-foreground/80;
+    }
+
     /* CMS Components*/
     .card {
-        @apply rounded-lg border bg-background p-component shadow-sm;
+        @apply rounded-lg border border-muted/40 bg-background p-component shadow-xs;
     }
 
     .input {
-        @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2;
+        @apply flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1;
     }
 
     .section {

@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -43,10 +44,12 @@ func NewUser(username string, email string, password string, role Role) (*User, 
 	}
 
 	user := &User{
-		Username: username,
-		Password: password,
-		Email:    email,
-		Role:     string(role),
+		Username:  username,
+		Password:  password,
+		Email:     email,
+		Role:      string(role),
+		CreatedAt: time.Now().Format(time.RFC3339),
+		UpdatedAt: time.Now().Format(time.RFC3339),
 	}
 
 	if err := user.HashPassword(); err != nil {

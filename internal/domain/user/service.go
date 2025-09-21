@@ -47,6 +47,10 @@ func (s *Service) FindById(ctx context.Context, id int) (*User, error) {
 	return s.repo.FindById(ctx, id)
 }
 
+func (s *Service) FindByUsername(ctx context.Context, username string) (*User, error) {
+	return s.repo.FindByUsername(ctx, username)
+}
+
 func (s *Service) Delete(ctx context.Context, user *User) error {
 	return s.repo.Delete(ctx, user)
 }

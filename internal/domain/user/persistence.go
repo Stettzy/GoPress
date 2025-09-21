@@ -15,7 +15,7 @@ func NewPersistence(db *sql.DB) *Persistence {
 }
 
 func (p *Persistence) Create(ctx context.Context, user *User) error {
-	query := `INSERT INTO users (username, password, email, role, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO users (username, password, email, role, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)`
 
 	_, err := p.db.ExecContext(ctx, query,
 		user.Username,
@@ -33,7 +33,7 @@ func (p *Persistence) Create(ctx context.Context, user *User) error {
 }
 
 func (p *Persistence) Update(ctx context.Context, user *User) error {
-	query := `UPDATE users SET username = $1, password = $2, email = $3, role = $4, updated_at = $5 WHERE id = $6`
+	query := `UPDATE users SET username = ?, password = ?, email = ? role = ?, updated_at = ? WHERE id = ?`
 	_, err := p.db.ExecContext(ctx, query,
 		user.Username,
 		user.Password,
@@ -50,7 +50,7 @@ func (p *Persistence) Update(ctx context.Context, user *User) error {
 }
 
 func (p *Persistence) Delete(ctx context.Context, user *User) error {
-	query := `DELETE FROM users WHERE id = $1`
+	query := `DELETE FROM users WHERE id = ?`
 
 	_, err := p.db.ExecContext(ctx, query, user.ID)
 	if err != nil {
@@ -61,7 +61,7 @@ func (p *Persistence) Delete(ctx context.Context, user *User) error {
 }
 
 func (p *Persistence) FindById(ctx context.Context, id int) (*User, error) {
-	query := `SELECT username, email, role FROM users WHERE id = $1`
+	query := `SELECT username, email, role FROM users WHERE id = ?`
 
 	var user User
 
@@ -74,11 +74,11 @@ func (p *Persistence) FindById(ctx context.Context, id int) (*User, error) {
 }
 
 func (p *Persistence) FindByUsername(ctx context.Context, username string) (*User, error) {
-	query := `SELECT username, email, role FROM users WHERE username = $1`
+	query := `SELECT id, username, email, role, password FROM users WHERE username = ?`
 
 	var user User
 
-	err := p.db.QueryRowContext(ctx, query, username).Scan(&user.Username, &user.Email, &user.Role)
+	err := p.db.QueryRowContext(ctx, query, username).Scan(&user.ID, &user.Username, &user.Email, &user.Role, &user.Password)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ func (p *Persistence) FindByUsername(ctx context.Context, username string) (*Use
 }
 
 func (p *Persistence) FindByEmail(ctx context.Context, email string) (*User, error) {
-	query := `SELECT username, email, role FROM users WHERE email = $1`
+	query := `SELECT username, email, role FROM users WHERE email = ?`
 
 	var user User
 
