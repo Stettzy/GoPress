@@ -1,0 +1,23 @@
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+
+    .text-ellipsis {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .text-wrap {
+        text-wrap: wrap;
+    }
+
+    .text-nowrap {
+        white-space: nowrap;
+    }
+
+    .text-pre-wrap {
+        white-space: pre-wrap;
+    }
+}

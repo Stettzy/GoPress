@@ -1,0 +1,50 @@
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2_5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .btn-sm {
+        @apply px-3 py-1_5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-6 py-3_5 text-base;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground;
+    }
+
+    .btn-secondary {
+        @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:text-secondary-foreground;
+    }
+
+    .btn-muted {
+        @apply bg-muted text-muted-foreground hover:bg-muted/90 hover:text-muted-foreground;
+    }
+
+    .btn-outline {
+        @apply bg-transparent text-foreground hover:bg-muted hover:text-muted-foreground border border-input;
+    }
+
+    .btn-ghost {
+        @apply bg-transparent text-foreground hover:bg-muted hover:text-muted-foreground;
+    }
+
+    /* CMS Components*/
+    .card {
+        @apply rounded-lg border bg-background p-component shadow-sm;
+    }
+
+    .input {
+        @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2;
+    }
+
+    .section {
+        @apply space-y-component p-section;
+    }
+
+    .form-group {
+        @apply space-y-tight;
+    }
+}

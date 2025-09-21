@@ -1,0 +1,61 @@
+@theme {
+    /* Colors */
+    --color-gunmetal: #2D3142;
+    --color-silver: #BFC0C0;
+    --color-white: #FFFFFF;
+    --color-coral: #EF8354;
+    --color-payne: #4F5D75;
+
+    /* Semantic Colors */
+    --color-background: var(--color-white);
+    --color-foreground: var(--color-gunmetal);
+
+    --color-primary: var(--color-coral);
+    --color-primary-foreground: var(--color-white);
+
+    --color-secondary: var(--color-payne);
+    --color-secondary-foreground: var(--color-white);
+
+    --color-muted: var(--color-silver);
+    --color-muted-foreground: var(--color-gunmetal);
+
+    --color-border: var(--color-silver);
+    --color-input: var(--color-silver);
+    --color-ring: var(--color-coral);
+
+    --color-sidebar: var(--color-gunmetal);
+    --color-sidebar-foreground: var(--color-white);
+    --color-sidebar-muted: var(--color-payne);
+    
+    --color-hover: var(--color-payne);
+    --color-active: var(--color-coral);
+
+    /* Spacing */
+    --spacing-0: 0;
+    --spacing-px: 1px;
+    --spacing-0_5: 0.125rem;   /* 2px */
+    --spacing-1: 0.25rem;      /* 4px */
+    --spacing-1_5: 0.375rem;   /* 6px */
+    --spacing-2: 0.5rem;       /* 8px */
+    --spacing-2_5: 0.625rem;   /* 10px */
+    --spacing-3: 0.75rem;      /* 12px */
+    --spacing-3_5: 0.875rem;   /* 14px */
+    --spacing-4: 1rem;         /* 16px */
+    --spacing-5: 1.25rem;      /* 20px */
+    --spacing-6: 1.5rem;       /* 24px */
+    --spacing-7: 1.75rem;      /* 28px */
+    --spacing-8: 2rem;         /* 32px */
+    --spacing-10: 2.5rem;      /* 40px */
+    --spacing-12: 3rem;        /* 48px */
+    --spacing-16: 4rem;        /* 64px */
+    --spacing-20: 5rem;        /* 80px */
+    --spacing-24: 6rem;        /* 96px */
+    --spacing-32: 8rem;        /* 128px */
+    
+    /* Semantic Spacing */
+    --spacing-section: var(--spacing-24);    /* Between major sections */
+    --spacing-component: var(--spacing-8);   /* Between components */
+    --spacing-element: var(--spacing-4);     /* Between elements */
+    --spacing-tight: var(--spacing-2);       /* Tight spacing */
+    --spacing-loose: var(--spacing-6);       /* Loose spacing */
+}

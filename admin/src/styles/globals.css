@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "./design-system/tokens.css";
+@import "./design-system/components.css";
+@import "./design-system/utilities.css";
+@import "./themes/light.css";
+@import "./themes/dark.css";

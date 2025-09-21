@@ -1,0 +1,16 @@
+[data-theme="dark"] {
+    --color-background: var(--color-gunmetal);
+    --color-foreground: var(--color-white);
+    
+    --color-muted: var(--color-payne);
+    --color-muted-foreground: var(--color-silver);
+    
+    --color-card: var(--color-payne);
+    --color-card-foreground: var(--color-white);
+    
+    --color-border: var(--color-payne);
+    --color-input: var(--color-payne);
+    
+    --color-sidebar: var(--color-gunmetal);
+    --color-sidebar-foreground: var(--color-white);
+  }

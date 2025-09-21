@@ -1,0 +1,16 @@
+:root {
+    --color-background: var(--color-white);
+    --color-foreground: var(--color-gunmetal);
+
+    --color-muted: var(--color-silver);
+    --color-muted-foreground: var(--color-payne);
+    
+    --color-card: var(--color-white);
+    --color-card-foreground: var(--color-gunmetal);
+    
+    --color-border: var(--color-silver);
+    --color-input: var(--color-white);
+    
+    --color-sidebar: var(--color-gunmetal);
+    --color-sidebar-foreground: var(--color-white);
+  }
