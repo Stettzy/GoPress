@@ -22,3 +22,12 @@ export type LoginData = {
 export type LogoutData = {
     token: string
 }
+
+export type User = {
+    id: number;
+    username: string;
+    email: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+}

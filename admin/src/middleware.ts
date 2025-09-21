@@ -9,7 +9,7 @@ export default function middleware(request: NextRequest) {
     const requiresAuth = getAuthenticatedRoutes().some(route => pathname.startsWith(route));
     const isSetupRoute = getSetupRoutes().some(route => pathname.startsWith(route));
     
-    if (!isSetupComplete && !isSetupRoute) {
+    if (!isSetupComplete && !isSetupRoute && isAuthenticated) {
         return NextResponse.redirect(new URL(ROUTES.SETUP.DB_CONNECTION, request.url));
     }
 

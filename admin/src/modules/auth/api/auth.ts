@@ -16,7 +16,13 @@ export const authApi = {
             },
             method: "POST",
             body: JSON.stringify(data),
+            credentials: 'include',
         })
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}))
+            throw new Error(errorData.error || errorData.message || 'Login failed')
+        }
 
         return response.json()
     },
@@ -24,10 +30,10 @@ export const authApi = {
         const response = await fetch(ENDPOINTS.LOGOUT, {
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${tokenUtils.getToken()}`,
             },
             method: "POST",
             body: JSON.stringify(data),
+            credentials: 'include',
         })
 
         return response.json()
