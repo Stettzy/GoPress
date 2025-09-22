@@ -1,7 +1,9 @@
+import { DashboardPage } from "@/modules/dashboard/pages/DashboardPage"
+
 export default function DashboardRoute() {
     return (
-        <div>
-            <h1>Dashboard</h1>
-        </div>
+        <>
+            <DashboardPage />
+        </>
     )
 }

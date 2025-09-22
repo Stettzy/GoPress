@@ -5,6 +5,7 @@
     --color-white: #FFFFFF;
     --color-coral: #EF8354;
     --color-payne: #4F5D75;
+    --color-accent: #3B82F6;
 
     /* Semantic Colors */
     --color-background: var(--color-white);
@@ -29,6 +30,8 @@
     
     --color-hover: var(--color-payne);
     --color-active: var(--color-coral);
+    
+    --color-accent-foreground: var(--color-white);
 
     /* Spacing */
     --spacing-0: 0;

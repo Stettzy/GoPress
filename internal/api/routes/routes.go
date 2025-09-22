@@ -33,22 +33,18 @@ func setupUsersRoutes(r *http.ServeMux, handlers *handlers.Handlers, authMiddlew
 	r.Handle("POST /api/users", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanCreateUsers() })(
 			http.HandlerFunc(handlers.UserHandler.Create))))
-
 	// Update
 	r.Handle("PUT /api/users/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanEditUsers() })(
 			http.HandlerFunc(handlers.UserHandler.Update))))
-
 	// Delete
 	r.Handle("DELETE /api/users/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanDeleteUsers() })(
 			http.HandlerFunc(handlers.UserHandler.Delete))))
-
 	// Find by id
 	r.Handle("GET /api/users/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanReadUsers() })(
 			http.HandlerFunc(handlers.UserHandler.FindById))))
-
 	// Get all
 	r.Handle("GET /api/users", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanReadUsers() })(
@@ -62,22 +58,18 @@ func setupArticlesRoutes(r *http.ServeMux, handlers *handlers.Handlers, authMidd
 	r.Handle("POST /api/articles", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanCreateArticles() })(
 			http.HandlerFunc(handlers.ArticleHandler.Create))))
-
 	// Update
 	r.Handle("PUT /api/articles/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanEditArticles() })(
 			http.HandlerFunc(handlers.ArticleHandler.Update))))
-
 	// Delete
 	r.Handle("DELETE /api/articles/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanDeleteArticles() })(
 			http.HandlerFunc(handlers.ArticleHandler.Delete))))
-
 	// Find by id
 	r.Handle("GET /api/articles/{id}", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanReadArticles() })(
 			http.HandlerFunc(handlers.ArticleHandler.FindById))))
-
 	// Get all
 	r.Handle("GET /api/articles", authMiddleware.Middleware()(
 		authMiddleware.RequirePermission(func(u *user.User) bool { return u.CanReadArticles() })(

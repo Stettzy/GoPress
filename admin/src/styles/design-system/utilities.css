@@ -20,4 +20,17 @@
     .text-pre-wrap {
         white-space: pre-wrap;
     }
+
+    /* Accent color utilities */
+    .bg-accent {
+        background-color: var(--color-accent);
+    }
+
+    .text-accent-foreground {
+        color: var(--color-accent-foreground);
+    }
+
+    .border-accent {
+        border-color: var(--color-accent);
+    }
 }

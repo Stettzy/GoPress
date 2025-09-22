@@ -13,4 +13,8 @@
     
     --color-sidebar: var(--color-gunmetal);
     --color-sidebar-foreground: var(--color-white);
+    
+    /* Accent colors */
+    --color-accent: var(--color-accent);
+    --color-accent-foreground: var(--color-accent-foreground);
   }

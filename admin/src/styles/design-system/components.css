@@ -37,6 +37,10 @@
         @apply bg-transparent text-foreground hover:bg-muted hover:text-muted-foreground;
     }
 
+    .btn-accent {
+        @apply bg-accent text-accent-foreground hover:bg-accent/90 hover:text-accent-foreground;
+    }
+
     /* Links */
     .link {
         @apply font-medium text-primary hover:text-primary/80;
