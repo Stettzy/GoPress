@@ -1,7 +1,7 @@
 "use client"
 
 import { UserCircle, FileTextIcon, MessageCircle, EyeIcon, Calendar, Edit, Trash2, Check, Plus, Users, MessageSquare, BarChart3 } from "lucide-react"
-import StatCard from "../components/cards/StatCard"
+import { PageHeader } from "@/shared/components/headers/PageHeader"
 import ContentListCard from "../components/cards/ContentListCard"
 import QuickActionCard from "../components/cards/QuickActionCard"
 
@@ -133,7 +133,14 @@ export function DashboardPage() {
 
     return (
         <div className="space-y-12">
-            <h1 className="text-3xl font-bold">Dashboard</h1>
+            <PageHeader title="Dashboard">
+                <div className="flex items-center gap-2">
+                    <button className="cursor-pointer flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/80 transition-all">
+                        <Plus className="w-4 h-4" />
+                        Add Post
+                    </button>
+                </div>
+            </PageHeader>
 
             <div className="space-y-4">
                 <div>
