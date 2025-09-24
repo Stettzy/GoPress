@@ -7,3 +7,4 @@ export default function SettingsRouteLayout({ children }: { children: React.Reac
         </DashboardLayout>
     )
 }
+
