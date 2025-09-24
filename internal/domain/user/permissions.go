@@ -63,3 +63,23 @@ func (u *User) CanEditTags() bool {
 func (u *User) CanDeleteTags() bool {
 	return u.isAdmin() || u.isEditor()
 }
+
+func (u *User) CanReadPages() bool {
+	return u.isAdmin() || u.isEditor() || u.isViewer()
+}
+
+func (u *User) CanCreatePages() bool {
+	return u.isAdmin() || u.isEditor()
+}
+
+func (u *User) CanEditPages() bool {
+	return u.isAdmin() || u.isEditor()
+}
+
+func (u *User) CanDeletePages() bool {
+	return u.isAdmin() || u.isEditor()
+}
+
+func (u *User) CanReadPageBySlug() bool {
+	return u.isAdmin() || u.isEditor() || u.isViewer()
+}

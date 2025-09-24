@@ -11,6 +11,7 @@ import (
 	"github.com/Stettzy/GoPress/internal/api/routes"
 	"github.com/Stettzy/GoPress/internal/config"
 	"github.com/Stettzy/GoPress/internal/domain/article"
+	"github.com/Stettzy/GoPress/internal/domain/page"
 	"github.com/Stettzy/GoPress/internal/domain/user"
 	"github.com/Stettzy/GoPress/internal/infrastructure/database"
 )
@@ -63,18 +64,21 @@ func startNormalMode() {
 	userRepo := user.NewPersistence(db)
 	articleRepo := article.NewPersistence(db)
 	configRepo := config.NewPersistence(db)
+	pageRepo := page.NewPersistence(db)
 
 	// 4. Initialize services
 	userService := user.NewService(userRepo)
 	articleService := article.NewService(articleRepo)
 	configService := config.NewService(configRepo)
+	pageService := page.NewService(pageRepo)
 
 	// 5. Initialize handlers
 	userHandler := handlers.NewUserHandler(userService)
 	articleHandler := handlers.NewArticleHandler(articleService)
 	configHandler := handlers.NewConfigHandler(configService)
 	authHandler := handlers.NewAuthHandler(userService, jwtSecret)
-	allHandlers := handlers.NewHandlers(userHandler, articleHandler, configHandler, authHandler)
+	pageHandler := handlers.NewPageHandler(pageService)
+	allHandlers := handlers.NewHandlers(userHandler, articleHandler, configHandler, authHandler, pageHandler)
 
 	// 6. Initialize authentication middleware
 
